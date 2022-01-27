@@ -29,10 +29,35 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
+type ErrNegSqrt float64
+
+func (e ErrNegSqrt) Error() string {
+	return fmt.Sprintf(
+		"cannot Sqrt negative number: %v", 	
+		float64(e),
+	)
+}
+
 func Sqrt(x float64) (float64, error) {
-	return 0, nil
+	if x < 0 {
+		return 0, ErrNegSqrt(x)
+	}
+	var z1 float64 = 1
+	var z2 = x
+	var i int
+	for math.Abs(z2-z1) > 1e-15 {
+		z1 = z2
+		z2 = newGuess(z1, x)
+		i += 1
+	}
+	return z2, nil
+}
+
+func newGuess(z, x float64) float64 {
+	return z - ((z*z - x) / (2 * z))
 }
 
 func main() {

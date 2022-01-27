@@ -59,7 +59,7 @@ func Crawl(url string, depth int, fetcher Fetcher, cache *SafeCache) {
 		return
 	}
 
-	// Fetch URLs in parallel.
+	// TODO: Fetch URLs in parallel.
 
 	body, urls, err := fetcher.Fetch(url)
 	cache.set(url, body)

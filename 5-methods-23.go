@@ -19,6 +19,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -30,6 +31,14 @@ type rot13Reader struct {
 
 func main() {
 	s := strings.NewReader("Lbh penpxrq gur pbqr!")
-	r := rot13Reader{s}
-	io.Copy(os.Stdout, &r)
+	//r := rot13Reader{s}
+	io.Copy(os.Stdout, s) // &r)
+
+	fmt.Println("")
+	s1 := "Lbh penpxrq gur pbqr!"
+	for i, v := range s1 {
+		fmt.Print(v+13, " ")
+		s1[i] = v + 13
+	}
+	fmt.Println(s1)
 }

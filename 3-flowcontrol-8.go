@@ -1,8 +1,9 @@
 // https://go.dev/tour/flowcontrol/8
 
-// Exercise: Loops and Functions As a way to play with functions and loops, let's
-// implement a square root function: given a number x, we want to find the number z for
-// which z² is most nearly x.
+// Exercise: Loops and Functions 
+
+// As a way to play with functions and loops, let's implement a square root function:
+// given a number x, we want to find the number z for which z² is most nearly x.
 
 // Computers typically compute the square root of x using a loop. Starting with some
 // guess z, we can adjust z based on how close z² is to x, producing a better guess:
@@ -37,9 +38,23 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
-func Sqrt(x float64) float64 {
+func Sqrt(x float64) (int, float64) {
+	var z1 float64 = 1
+	var z2 = x
+	var i int
+	for math.Abs(z2-z1) > 1e-15 {
+		z1 = z2
+		z2 = newGuess(z1, x)
+		i += 1
+	}
+	return i, z2
+}
+
+func newGuess(z, x float64) float64 {
+	return z - ((z*z - x) / (2 * z))
 }
 
 func main() {

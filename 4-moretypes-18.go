@@ -17,20 +17,37 @@ package main
 
 import "golang.org/x/tour/pic"
 
-func Pic(dx, dy int) [][]uint8 {
-	// allocate y
-	y := make([][]uint8, dy)
-	for i := range y {
-		y[i] = make([]uint8, dx)
-		// draw the picture
-		for j := range y[i] {
-			y[i][j] = uint8((i + j) / 2)
-		}
-	}
+type PicFunc func(int, int) [][]uint8
+type ImageFunc func(int, int) uint8
 
-	return y
+func PicFactory(f ImageFunc) PicFunc {
+	picFunc := func(dx, dy int) [][]uint8 {
+		// allocate y
+		y := make([][]uint8, dy)
+		for i := range y {
+			y[i] = make([]uint8, dx)
+			// draw the picture
+			for j := range y[i] {
+				y[i][j] = f(i, j)
+			}
+		}
+		return y
+	}
+	return picFunc
+}
+
+func f1(x, y int) uint8 {
+	return uint8((x + y) / 2)
+}
+func f2(x, y int) uint8 {
+	return uint8(x * y)
+}
+func f3(x, y int) uint8 {
+	return uint8(x ^ y)
 }
 
 func main() {
-	pic.Show(Pic)
+	// pick 1: f1, f2, f3 (it would be nice to define f1/2/3 as a lambda inline inside
+	// PicFactory(...), but not in Go apparently)
+	pic.Show(PicFactory(f1))
 }

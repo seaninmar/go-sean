@@ -1,3 +1,3 @@
-module github.com/seaninmar/go-greeting
+module github.com/seaninmar/go-sean/greetings
 
 go 1.17

@@ -5,5 +5,6 @@ COPY ./ /go-tour/
 RUN ./build.sh
 
 FROM alpine:3.15
-COPY --from=compiler /go-tour/ ./
+WORKDIR /go-tour
+COPY --from=compiler ./ ./
 CMD ["./run.sh"]

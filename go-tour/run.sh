@@ -1,6 +1,7 @@
 #!/bin/sh
 for f in $(ls *.go); do 
+    e=${f%.*}
     echo
-    echo == $f ==
-    ./${f%.*}
+    echo == $e ==
+    ./$e
 done

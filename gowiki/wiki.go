@@ -16,19 +16,24 @@ type Page struct {
 	Body  []byte
 }
 
+// return the filesystem path to the Page with the given title
+func (page *Page) filepath(title string) string {
+	return "pages/" + page.Title + ".txt"
+}
+
 // save the Page Body to a text file, using Page.Title as the filename
 func (page *Page) save() error {
-	filename := page.Title + ".txt"
-	return os.WriteFile(filename, page.Body, 0600)
+	return os.WriteFile(page.filepath(page.Title), page.Body, 0600)
 }
 
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
-	body, err := os.ReadFile(filename)
+	page := &Page{Title: title}
+	body, err := os.ReadFile(page.filepath(page.Title))
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Title: title, Body: body}, nil
+	page.Body = body
+	return page, nil
 }
 
 var validWikiPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
